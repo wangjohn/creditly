@@ -1,0 +1,50 @@
+<html>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript" src="creditly.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Creditly.initialize(
+          '.credit-card .expiration-month-and-year',
+          '.credit-card .credit-card-number',
+          '.credit-card .security-code');
+    });
+  </script>
+</html>
+<body>
+  <section class="credit-card">
+    <div class="credit-card-wrapper">
+      <div class="number form-group control-group">
+        <div class="col-sm-8 controls control-group">
+          <label class="control-label">Card Number</label>
+          <input class="number credit-card-number form-control"
+            type="text" name="number" required
+            inputmode="numeric" autocomplete="cc-number" autocompletetype="cc-number" x-autocompletetype="cc-number"
+            placeholder="&#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149;">
+        </div>
+        <div class="col-sm-4 controls control-group">
+          <label class="control-label">CVV</label>
+          <input class="security-code form-control"·
+            type="text" name="security-code" required
+            placeholder="&#149;&#149;&#149;">
+        </div>
+      </div>
+      <div class="credit-card-second-row form-group control-group">
+        <div class="second-line-card-wrapper">
+          <div class="col-sm-8 controls control-group">
+            <label class="control-label">Name on Card</label>
+            <input class="billing-address-name form-control"
+              type="text" name="name" required
+              placeholder="John Smith">
+          </div>
+          <div class="col-sm-4 controls control-group">
+            <label class="control-label">Expiration</label>
+            <input class="expiration-month-and-year form-control"
+              type="text" name="expiration-month-and-year" required
+              placeholder="MM / YY">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
