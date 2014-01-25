@@ -161,13 +161,14 @@ var Creditly = (function() {
         };
       };
 
-      var creditCard = function(selector) {
-        var rawNumber = $(selector).find("input.credit-card-number").val();
+      var creditCard = function(selector, data) {
+        var rawNumber = $(data["creditCardNumberSelector"]).val();
         var number = $.trim(rawNumber).replace(/\D/g, "");
-        var rawSecurityCode = $(selector).find("input.security-code").val();
+        var rawSecurityCode = $(data["cvvSelector"]).val();
         var securityCode = $.trim(rawSecurityCode).replace(/\D/g, "");
-        var message, errorType;
+        var message;
         var isValid = false;
+        var selectors = [];
 
         if (isValidCreditCardNumber(number)) {
           if (isAmericanExpress(number)) {
@@ -176,16 +177,19 @@ var Creditly = (function() {
             isValid = (securityCode.length == 3);
           }
           if (!isValid) {
-            message = "Invalid security code";
+            message = data["message"]["security_code"];
+            selectors.push(data["cvvSelector"]);
           }
         } else {
-          message = "Invalid credit card number";
+          message = data["message"]["number"];
+          selectors.push(data["creditCardNumberSelector"]);
         }
 
         result = {
           "is_valid": isValid,
           "output_value": [number, securityCode],
-          "message": message
+          "selectors": selectors,
+          "messages": message
         };
         return result;
       };
@@ -230,7 +234,7 @@ var Creditly = (function() {
           selectors.push(selector)
         }
 
-        errorMessages.push(validatorResults["message"]);
+        errorMessages.concat(validatorResults["messages"]);
       };
 
       var triggerErrorMessage = function() {
@@ -322,7 +326,6 @@ var Creditly = (function() {
     return {
       validate: validate;
     };
-
   })();
 
   var ExpirationInput = (function() {
@@ -360,14 +363,59 @@ var Creditly = (function() {
     };
   })();
 
-  var initialize = function(expirationSelector, creditCardNumberSelector, cvvSelector) {
+  var options;
+  var selectorValidatorMap;
+
+  var initialize = function(expirationSelector, creditCardNumberSelector, cvvSelector, options) {
+    this.expirationSelector = expirationSelector;
+    this.creditCardNumberSelector = creditCardNumberSelector;
+    this.cvvSelector = cvvSelector;
+    setOptions(options);
+    createSelectorValidatorMap(expirationSelector, creditCardNumberSelector, cvvSelector);
+
     ExpirationInput.createExpirationInput(expirationSelector);
     NumberInput.createNumberInput(creditCardNumberSelector);
     CvvInput.createCvvInput(cvvSelector, creditCardNumberSelector);
-  }
+
+    return this;
+  };
+
+  var setOptions = function(options) {
+    this.options["security_code_message"] = options["security_code_message"] || "Your security code is invalid";
+    this.options["number_message"] = options["number_message"] || "Your credit card number is invalid";
+    this.options["expiration_message"] = options["expiration_message"] || "Your credit card expiration is invalid";
+  };
+
+  var createSelectorValidatorMap = function(expirationSelector, creditCardNumberSelector, cvvSelector) {
+    this.selectorValidatorMap = {
+      creditCardNumberSelector: {
+        "type": "creditCardNumber",
+        "data": {
+          "cvvSelector": cvvSelector,
+          "creditCardNumberSelector": creditCardNumberSelector,
+          "message": {
+            "security_code": this.options["security_code_message"],
+            "number": this.options["number_message"]
+          }
+        },
+        "output_name": ["number", "security_code"]
+      },
+      expirationSelector: {
+        "type": "creditCardExpiration",
+        "data": {
+          "message": this.options["expiration_message"]
+        },
+        "output_name": ["expiration_month", "expiration_year"]
+      }
+    };
+  };
+
+  var validate = function() {
+    return Validation.validate(this.selectorValidatorMap);
+  };
 
   return {
     initialize: initialize,
-    parseExpirationInput: ExpirationInput.parseExpirationInput
+    validate: validate,
   };
 })();
