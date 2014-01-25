@@ -9,14 +9,17 @@
           '.creditly-wrapper .credit-card-number',
           '.creditly-wrapper .security-code');
 
-      $(".credit-card-form .submit").click(function(e) {
+      $(".creditly-card-form .submit").click(function(e) {
         var output = creditly.validate();
         if (output) {
           console.log(output);
         }
+        e.preventDefault();
       });
       $("body").on("creditly_client_validation_error", function(e, data) {
-        console.log(data);
+        for (var i=0; i<data["selectors"].length; i++) {
+          $(data["selectors"][i]).addClass("has-error");
+        }
       });
     });
   </script>
@@ -29,14 +32,14 @@
           <div class="col-sm-8 controls">
             <label class="control-label">Card Number</label>
             <input class="number credit-card-number form-control"
-              type="text" name="number" required
+              type="text" name="number"
               inputmode="numeric" autocomplete="cc-number" autocompletetype="cc-number" x-autocompletetype="cc-number"
               placeholder="&#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149;">
           </div>
           <div class="col-sm-4 controls">
             <label class="control-label">CVV</label>
             <input class="security-code form-control"·
-              type="text" name="security-code" required
+              type="text" name="security-code"
               placeholder="&#149;&#149;&#149;">
           </div>
         </div>
@@ -44,13 +47,13 @@
           <div class="col-sm-8 controls">
             <label class="control-label">Name on Card</label>
             <input class="billing-address-name form-control"
-              type="text" name="name" required
+              type="text" name="name"
               placeholder="John Smith">
           </div>
           <div class="col-sm-4 controls">
             <label class="control-label">Expiration</label>
             <input class="expiration-month-and-year form-control"
-              type="text" name="expiration-month-and-year" required
+              type="text" name="expiration-month-and-year"
               placeholder="MM / YY">
           </div>
         </div>
