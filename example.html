@@ -8,41 +8,54 @@
           '.creditly-wrapper .expiration-month-and-year',
           '.creditly-wrapper .credit-card-number',
           '.creditly-wrapper .security-code');
+
+      $(".credit-card-form .submit").click(function(e) {
+        var output = creditly.validate();
+        if (output) {
+          console.log(output);
+        }
+      });
+      $("body").on("creditly_client_validation_error", function(e, data) {
+        console.log(data);
+      });
     });
   </script>
 </html>
 <body>
-  <section class="creditly-wrapper">
-    <div class="credit-card-wrapper">
-      <div class="first-row form-group">
-        <div class="col-sm-8 controls">
-          <label class="control-label">Card Number</label>
-          <input class="number credit-card-number form-control"
-            type="text" name="number" required
-            inputmode="numeric" autocomplete="cc-number" autocompletetype="cc-number" x-autocompletetype="cc-number"
-            placeholder="&#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149;">
+  <form class="creditly-card-form">
+    <section class="creditly-wrapper">
+      <div class="credit-card-wrapper">
+        <div class="first-row form-group">
+          <div class="col-sm-8 controls">
+            <label class="control-label">Card Number</label>
+            <input class="number credit-card-number form-control"
+              type="text" name="number" required
+              inputmode="numeric" autocomplete="cc-number" autocompletetype="cc-number" x-autocompletetype="cc-number"
+              placeholder="&#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149;">
+          </div>
+          <div class="col-sm-4 controls">
+            <label class="control-label">CVV</label>
+            <input class="security-code form-control"·
+              type="text" name="security-code" required
+              placeholder="&#149;&#149;&#149;">
+          </div>
         </div>
-        <div class="col-sm-4 controls">
-          <label class="control-label">CVV</label>
-          <input class="security-code form-control"·
-            type="text" name="security-code" required
-            placeholder="&#149;&#149;&#149;">
+        <div class="second-row form-group">
+          <div class="col-sm-8 controls">
+            <label class="control-label">Name on Card</label>
+            <input class="billing-address-name form-control"
+              type="text" name="name" required
+              placeholder="John Smith">
+          </div>
+          <div class="col-sm-4 controls">
+            <label class="control-label">Expiration</label>
+            <input class="expiration-month-and-year form-control"
+              type="text" name="expiration-month-and-year" required
+              placeholder="MM / YY">
+          </div>
         </div>
       </div>
-      <div class="second-row form-group">
-        <div class="col-sm-8 controls">
-          <label class="control-label">Name on Card</label>
-          <input class="billing-address-name form-control"
-            type="text" name="name" required
-            placeholder="John Smith">
-        </div>
-        <div class="col-sm-4 controls">
-          <label class="control-label">Expiration</label>
-          <input class="expiration-month-and-year form-control"
-            type="text" name="expiration-month-and-year" required
-            placeholder="MM / YY">
-        </div>
-      </div>
-    </div>
-  </section>
+      </section>
+      <button class="submit"><span>Submit</span></button>
+    </form>
 </body>

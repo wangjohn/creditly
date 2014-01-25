@@ -189,7 +189,7 @@ var Creditly = (function() {
           "is_valid": isValid,
           "output_value": [number, securityCode],
           "selectors": selectors,
-          "messages": message
+          "message": message
         };
         return result;
       };
@@ -234,7 +234,7 @@ var Creditly = (function() {
           selectors.push(selector)
         }
 
-        errorMessages.concat(validatorResults["messages"]);
+        errorMessages.push(validatorResults["message"]);
       };
 
       var triggerErrorMessage = function() {
@@ -373,15 +373,17 @@ var Creditly = (function() {
     return this;
   };
 
+  var selectorValidatorMap;
+
   var createSelectorValidatorMap = function(expirationSelector, creditCardNumberSelector, cvvSelector, options) {
     var optionValues = options || {};
     optionValues["security_code_message"] = optionValues["security_code_message"] || "Your security code is invalid";
     optionValues["number_message"] = optionValues["number_message"] || "Your credit card number is invalid";
     optionValues["expiration_message"] = optionValues["expiration_message"] || "Your credit card expiration is invalid";
 
-    this.selectorValidatorMap = {
-      creditCardNumberSelector: {
-        "type": "creditCardNumber",
+    selectorValidatorMap = {};
+    selectorValidatorMap[creditCardNumberSelector] = {
+        "type": "creditCard",
         "data": {
           "cvvSelector": cvvSelector,
           "creditCardNumberSelector": creditCardNumberSelector,
@@ -391,19 +393,18 @@ var Creditly = (function() {
           }
         },
         "output_name": ["number", "security_code"]
-      },
-      expirationSelector: {
+      };
+    selectorValidatorMap[expirationSelector] = {
         "type": "creditCardExpiration",
         "data": {
           "message": optionValues["expiration_message"]
         },
         "output_name": ["expiration_month", "expiration_year"]
-      }
-    };
+      };
   };
 
   var validate = function() {
-    return Validation.validate(this.selectorValidatorMap);
+    return Validation.validate(selectorValidatorMap);
   };
 
   return {
