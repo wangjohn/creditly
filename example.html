@@ -10,11 +10,12 @@
           '.creditly-wrapper .security-code');
 
       $(".creditly-card-form .submit").click(function(e) {
+        e.preventDefault();
         var output = creditly.validate();
         if (output) {
+          // Your validated credit card output
           console.log(output);
         }
-        e.preventDefault();
       });
     });
   </script>
@@ -53,7 +54,7 @@
           </div>
         </div>
       </div>
-      </section>
-      <button class="submit"><span>Submit</span></button>
-    </form>
+    </section>
+    <button class="submit"><span>Submit</span></button>
+  </form>
 </body>
