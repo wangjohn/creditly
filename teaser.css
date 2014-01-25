@@ -1,0 +1,27 @@
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.428571429;
+}
+
+h1, h2 {
+  color: #357ebd;
+}
+
+.banner .row {
+  margin-top: 50px;
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.banner .row .submit {
+  margin-top: 20px;
+  float: right;
+}
+
+.banner .footer {
+  bottom: 0;
+  position: absolute;
+  margin: 20px;
+}

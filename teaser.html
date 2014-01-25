@@ -1,0 +1,72 @@
+<html>
+  <link rel="stylesheet" href="creditly.css">
+  <link rel="stylesheet" href="teaser.css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript" src="creditly.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      var creditly = Creditly.initialize(
+          '.creditly-wrapper .expiration-month-and-year',
+          '.creditly-wrapper .credit-card-number',
+          '.creditly-wrapper .security-code');
+
+      $(".creditly-card-form .submit").click(function(e) {
+        e.preventDefault();
+        var output = creditly.validate();
+        if (output) {
+          // Your validated credit card output
+          console.log(output);
+        }
+      });
+    });
+  </script>
+</html>
+<body>
+  <div class="banner">
+    <div class="header">
+      <h1>Creditly.js</h1>
+      <h2>An easy to integrate credit card form</h2>
+    </div>
+    <div class="row">
+      <form class="creditly-card-form">
+        <section class="creditly-wrapper">
+          <div class="credit-card-wrapper">
+            <div class="first-row form-group">
+              <div class="col-sm-8 controls">
+                <label class="control-label">Card Number</label>
+                <input class="number credit-card-number form-control"
+                  type="text" name="number"
+                  inputmode="numeric" autocomplete="cc-number" autocompletetype="cc-number" x-autocompletetype="cc-number"
+                  placeholder="&#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149;">
+              </div>
+              <div class="col-sm-4 controls">
+                <label class="control-label">CVV</label>
+                <input class="security-code form-control"·
+                  type="text" name="security-code"
+                  placeholder="&#149;&#149;&#149;">
+              </div>
+            </div>
+            <div class="second-row form-group">
+              <div class="col-sm-8 controls">
+                <label class="control-label">Name on Card</label>
+                <input class="billing-address-name form-control"
+                  type="text" name="name"
+                  placeholder="John Smith">
+              </div>
+              <div class="col-sm-4 controls">
+                <label class="control-label">Expiration</label>
+                <input class="expiration-month-and-year form-control"
+                  type="text" name="expiration-month-and-year"
+                  placeholder="MM / YY">
+              </div>
+            </div>
+          </div>
+        </section>
+        <button class="submit"><span>Submit</span></button>
+      </form>
+    </div>
+    <div class="footer">
+      Powered by <a href="http://zinc.io">Zinc</a>
+    </div>
+  </div>
+</body>
