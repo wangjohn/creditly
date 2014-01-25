@@ -16,11 +16,6 @@
         }
         e.preventDefault();
       });
-      $("body").on("creditly_client_validation_error", function(e, data) {
-        for (var i=0; i<data["selectors"].length; i++) {
-          $(data["selectors"][i]).addClass("has-error");
-        }
-      });
     });
   </script>
 </html>

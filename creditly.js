@@ -60,6 +60,7 @@ var Creditly = (function() {
       };
 
       $(selector).keypress(function(e) {
+        $(selector).removeClass("has-error");
         var number = getInputValue(e, numberSelector);
         var cvv = getInputValue(e, selector)
         var isAmericanExpressCard = isAmericanExpress(number);
@@ -91,6 +92,7 @@ var Creditly = (function() {
     var createNumberInput = function(mainSelector) {
       selector = mainSelector;
       $(selector).keypress(function(e) {
+        $(selector).removeClass("has-error");
         var number = getInputValue(e, selector);
         var isAmericanExpressCard = isAmericanExpress(number);
         var maximumLength = getMaximumLength(isAmericanExpressCard);
@@ -247,6 +249,9 @@ var Creditly = (function() {
           "selectors": selectors,
           "messages": errorMessages
         };
+        for (var i=0; i<selectors.length; i++) {
+          $(selectors[i]).addClass("has-error");
+        }
         $("body").trigger("creditly_client_validation_error", errorsPayload);
       };
 
@@ -340,6 +345,7 @@ var Creditly = (function() {
     var createExpirationInput = function(mainSelector) {
       selector = mainSelector
       $(selector).keypress(function(e) {
+        $(selector).removeClass("has-error");
         if (shouldProcessInput(e, maximumLength, selector)) {
           var inputValue = getInputValue(e, selector);
           if (inputValue.length >= 2) {
