@@ -9,10 +9,13 @@ h1, h2 {
 }
 
 .banner .row {
-  margin-top: 50px;
   width: 350px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.banner .creditly-card-form {
+  margin-top: 60px;
 }
 
 .banner .row .submit {
