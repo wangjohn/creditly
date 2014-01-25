@@ -324,7 +324,7 @@ var Creditly = (function() {
     };
 
     return {
-      validate: validate;
+      validate: validate
     };
   })();
 
@@ -363,15 +363,8 @@ var Creditly = (function() {
     };
   })();
 
-  var options;
-  var selectorValidatorMap;
-
   var initialize = function(expirationSelector, creditCardNumberSelector, cvvSelector, options) {
-    this.expirationSelector = expirationSelector;
-    this.creditCardNumberSelector = creditCardNumberSelector;
-    this.cvvSelector = cvvSelector;
-    setOptions(options);
-    createSelectorValidatorMap(expirationSelector, creditCardNumberSelector, cvvSelector);
+    createSelectorValidatorMap(expirationSelector, creditCardNumberSelector, cvvSelector, options);
 
     ExpirationInput.createExpirationInput(expirationSelector);
     NumberInput.createNumberInput(creditCardNumberSelector);
@@ -380,13 +373,12 @@ var Creditly = (function() {
     return this;
   };
 
-  var setOptions = function(options) {
-    this.options["security_code_message"] = options["security_code_message"] || "Your security code is invalid";
-    this.options["number_message"] = options["number_message"] || "Your credit card number is invalid";
-    this.options["expiration_message"] = options["expiration_message"] || "Your credit card expiration is invalid";
-  };
+  var createSelectorValidatorMap = function(expirationSelector, creditCardNumberSelector, cvvSelector, options) {
+    var optionValues = options || {};
+    optionValues["security_code_message"] = optionValues["security_code_message"] || "Your security code is invalid";
+    optionValues["number_message"] = optionValues["number_message"] || "Your credit card number is invalid";
+    optionValues["expiration_message"] = optionValues["expiration_message"] || "Your credit card expiration is invalid";
 
-  var createSelectorValidatorMap = function(expirationSelector, creditCardNumberSelector, cvvSelector) {
     this.selectorValidatorMap = {
       creditCardNumberSelector: {
         "type": "creditCardNumber",
@@ -394,8 +386,8 @@ var Creditly = (function() {
           "cvvSelector": cvvSelector,
           "creditCardNumberSelector": creditCardNumberSelector,
           "message": {
-            "security_code": this.options["security_code_message"],
-            "number": this.options["number_message"]
+            "security_code": optionValues["security_code_message"],
+            "number": optionValues["number_message"]
           }
         },
         "output_name": ["number", "security_code"]
@@ -403,7 +395,7 @@ var Creditly = (function() {
       expirationSelector: {
         "type": "creditCardExpiration",
         "data": {
-          "message": this.options["expiration_message"]
+          "message": optionValues["expiration_message"]
         },
         "output_name": ["expiration_month", "expiration_year"]
       }
