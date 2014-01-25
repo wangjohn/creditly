@@ -1,0 +1,88 @@
+.creditly-wrapper {
+  background-color: rgba(66, 139, 202, 0.6);
+  border-color: #357ebd;
+  border-radius: 4px;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+
+  min-width: 350px;
+  min-height: 216px;
+}
+
+.creditly-wrapper .credit-card-wrapper {
+  padding: 40px 30px;
+}
+
+.creditly-wrapper .credit-card-wrapper .controls {
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+/*
+ * Bootstrap stuff
+ */
+.creditly-wrapper .form-control {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.creditly-wrapper .form-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);
+}
+
+.creditly-wrapper label {
+  display: inline-block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.creditly-wrapper {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #333333;
+}
+
+.creditly-wrapper .col-sm-8 {
+  width: 66.6666666666666%;
+}
+
+.creditly-wrapper .col-sm-4 {
+  width: 33.3333333333333%;
+}
+
+.creditly-wrapper .col-sm-8,
+.creditly-wrapper .col-sm-4 {
+  float: left;
+  position: relative;
+  display: block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.creditly-wrapper .form-group {
+  width: 100%;
+  display: table;
+}
+
+.creditly-wrapper .first-row {
+  margin-bottom: 20px;
+}
