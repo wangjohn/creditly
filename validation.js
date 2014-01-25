@@ -4,79 +4,7 @@ Validation = (function(){
    * --------------------------------------------------------------------------
    */
   var Validators = (function() {
-    var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     var expirationRegex = /(\d\d)\s*\/\s*(\d\d)/;
-    var zipCodeRegex = /(^\d{5}$)|(^\d{5}\s*-\s*\d{4}$)/;
-
-    var required = function(selector, data) {
-      var value = $.trim($(selector).val())
-      var isValid = (value !== "");
-      return {
-        "is_valid": isValid,
-        "output_value": value,
-        "message": data["message"]
-      };
-    };
-
-    var zipCode = function(selector, data) {
-      var value = $.trim($(selector).val());
-      var isValid = zipCodeRegex.test(value);
-
-      return {
-        "is_valid": isValid,
-        "message": data["message"],
-        "output_value": value
-      };
-    };
-
-    var noValidation = function(selector, data) {
-      return {
-        "is_valid": true,
-        "output_value": $(selector).val()
-      };
-    };
-
-    var multipleRequired = function(selector, data) {
-      var invalidSelectors = []
-      $(selector).each(function(index, element) {
-        var isValid = ($.trim($(element).val()) !== "");
-        if (!isValid) {
-          invalidSelectors.push(element);
-        }
-      });
-      var outputValue = [{
-        "product_id": $.trim($(data["product_id_selector"]).val()),
-        "quantity": 1
-      }];
-
-      return {
-        "is_valid": (invalidSelectors.length === 0),
-        "output_value": outputValue,
-        "message": data["message"],
-        "selectors": invalidSelectors
-      };
-    };
-
-    var email = function(selector, data) {
-      var email = $.trim($(selector).val());
-      var isValid = false;
-      if (email !== "" && emailRegex.test(email)) {
-        isValid = true;
-      }
-      return {
-        "is_valid": isValid,
-        "output_value": email,
-        "message": data["message"]
-      };
-    };
-
-    var checkbox = function(selector, data) {
-      var value = $(selector).is(":checked");
-      return {
-        "is_valid": true,
-        "output_value": value
-      };
-    };
 
     var creditCardExpiration = function(selector, data) {
       var expirationVal = $.trim($(selector).val());
@@ -173,13 +101,6 @@ Validation = (function(){
     return {
       creditCard: creditCard,
       creditCardExpiration: creditCardExpiration,
-      checkbox: checkbox,
-      email: email,
-      multipleRequired: multipleRequired,
-      name: name,
-      noValidation: noValidation,
-      required: required,
-      zipCode: zipCode
     };
   })();
 
@@ -207,7 +128,7 @@ Validation = (function(){
         "selectors": selectors,
         "messages": errorMessages
       };
-      $("body").trigger("zinc_client_validation_error", errorsPayload);
+      $("body").trigger("creditly_client_validation_error", errorsPayload);
     };
 
     return {
@@ -293,13 +214,13 @@ Validation = (function(){
    * --------------------------------------------------------------------------
    */
 
-  var validateStoreCardForm = function() {
+  var validateStoreCardForm = function(numberSelector, expirationSelector) {
     var selectorValidatorTypeMap = {
-      "section.credit-card .number": {
+      numberSelector: {
         "type": "creditCard",
         "output_name": ["store_card.number", "review_order.payment_method.security_code"]
       },
-      "section.credit-card .expiration-month-and-year": {
+      expirationSelector: {
         "type": "creditCardExpiration",
         "data": {
           "message": "Invalid credit card expiration date"
