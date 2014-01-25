@@ -156,9 +156,17 @@ var Creditly = (function() {
 
         return {
           "is_valid": isValid,
-          "message": data["message"],
+          "messages": [data["message"]],
           "output_value": outputValue
         };
+      };
+
+      var isValidSecurityCode = function(isAmericanExpress, securityCode) {
+        if ((isAmericanExpress && securityCode.length == 4) || 
+            (!isAmericanExpress && securityCode.length == 3)) {
+          return true;
+        }
+        return false;
       };
 
       var creditCard = function(selector, data) {
@@ -166,30 +174,27 @@ var Creditly = (function() {
         var number = $.trim(rawNumber).replace(/\D/g, "");
         var rawSecurityCode = $(data["cvvSelector"]).val();
         var securityCode = $.trim(rawSecurityCode).replace(/\D/g, "");
-        var message;
-        var isValid = false;
+        var messages = [];
+        var isValid = true;
         var selectors = [];
 
-        if (isValidCreditCardNumber(number)) {
-          if (isAmericanExpress(number)) {
-            isValid = (securityCode.length == 4);
-          } else {
-            isValid = (securityCode.length == 3);
-          }
-          if (!isValid) {
-            message = data["message"]["security_code"];
-            selectors.push(data["cvvSelector"]);
-          }
-        } else {
-          message = data["message"]["number"];
+        if (!isValidCreditCardNumber(number)) {
+          messages.push(data["message"]["number"]);
           selectors.push(data["creditCardNumberSelector"]);
+          isValid = false;
+        }
+
+        if (!isValidSecurityCode(isAmericanExpress(number), securityCode)) {
+          messages.push(data["message"]["security_code"]);
+          selectors.push(data["cvvSelector"]);
+          isValid = false;
         }
 
         result = {
           "is_valid": isValid,
           "output_value": [number, securityCode],
           "selectors": selectors,
-          "message": message
+          "messages": messages
         };
         return result;
       };
@@ -234,7 +239,7 @@ var Creditly = (function() {
           selectors.push(selector)
         }
 
-        errorMessages.push(validatorResults["message"]);
+        errorMessages.concat(validatorResults["messages"]);
       };
 
       var triggerErrorMessage = function() {
