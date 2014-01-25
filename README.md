@@ -22,10 +22,10 @@ To integrate, you just need to do the following things:
 * Copy the HTML from the `creditly.html` file onto your page.
 * Initialize from javascript.
 
-    var creditly = Creditly.initialize(
-        '.creditly-wrapper .expiration-month-and-year',
-        '.creditly-wrapper .credit-card-number',
-        '.creditly-wrapper .security-code');
+        var creditly = Creditly.initialize(
+            '.creditly-wrapper .expiration-month-and-year',
+            '.creditly-wrapper .credit-card-number',
+            '.creditly-wrapper .security-code');
 
 ## Submitting A Form
 
