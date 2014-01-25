@@ -21,6 +21,7 @@ To integrate, you just need to do the following things:
 
 * Copy the HTML from the `creditly.html` file onto your page.
 * Initialize from javascript.
+
 ```
 var creditly = Creditly.initialize(
     '.creditly-wrapper .expiration-month-and-year',
@@ -55,8 +56,8 @@ The first part of the above example instantiates the creditly object in the `cre
 
 The `creditly.validate` method will return one of two things:
 
-* `false` if the validation on either the credit card number, security code, or expiration date failed. A `creditly_client_validation_error` event will be triggered on the HTML's `body` element, and the `has-error` class will be added to the input with the failing validation.
-* An associative array with the properties:
+* If the validation on either the credit card number, security code, or expiration date fails, then `false` will be returned. A `creditly_client_validation_error` event will be triggered on the HTML's `body` element, and the `has-error` class will be added to the input with the failing validation.
+* If the validation on all the inputs succeeds, then an associative array with the properties will be returned:
   - `number`: The validated credit card number
   - `security_code`: The validated security code of the credit card (also known as the CVV)
 ` - `expiration_month`: The validated expiration month (integer between 1 and 12)
