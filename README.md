@@ -1,7 +1,7 @@
 Creditly.js
 ========
 
-An intuitive credit card form.
+An intuitive credit card form. Check out the [live demo](http://wangjohn.github.io/creditly/) to see Creditly.js in action.
 
 ![ScreenShot](images/teaser_snapshot.png)
 
