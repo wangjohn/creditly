@@ -78,6 +78,22 @@
   font-weight: bold;
 }
 
+.creditly-wrapper input:focus::-webkit-input-placeholder {
+    color: #ccc;
+}
+
+.creditly-wrapper input:focus:-moz-placeholder {
+    color: #ccc;
+}
+
+.creditly-wrapper input:focus::-moz-placeholder {
+    color: #ccc;
+}
+
+.creditly-wrapper input:focus:-ms-input-placeholder {
+    color: #ccc;
+}
+
 .creditly-wrapper .col-sm-8 {
   width: 66.6666666666666%;
 }
