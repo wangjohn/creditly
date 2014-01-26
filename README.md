@@ -3,6 +3,8 @@ Creditly.js
 
 An intuitive credit card form.
 
+![ScreenShot](images/teaser_snapshot.png)
+
 Creditly.js gives you everything you need in order to create a sleek, intuitive credit card form. Just copy the html, css, and javascript to getan intuitive credit card form in seconds. You get credit card validation (using the Luhn algorithm) for free!
 
 ## Integration
