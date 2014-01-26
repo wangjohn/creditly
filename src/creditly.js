@@ -1,7 +1,7 @@
 var Creditly = (function() {
   var getInputValue = function(e, selector) {
     var inputValue = $.trim($(selector).val());
-    inputValue = inputValue + String.fromCharCode(e.keyCode);
+    inputValue = inputValue + String.fromCharCode(e.which);
     return getNumber(inputValue);
   };
 
@@ -15,15 +15,15 @@ var Creditly = (function() {
 
   // Backspace, delete, tab, escape, enter, ., Ctrl+a, Ctrl+c, Ctrl+v, home, end, left, right
   var isEscapedKeyStroke = function(e) {
-    return ( $.inArray(e.keyCode,[46,8,9,27,13,190]) !== -1 ||
-      (e.keyCode == 65 && e.ctrlKey === true) || 
-      (e.keyCode == 67 && e.ctrlKey === true) || 
-      (e.keyCode == 86 && e.ctrlKey === true) || 
-      (e.keyCode >= 35 && e.keyCode <= 39));
+    return ( $.inArray(e.which,[46,8,9,27,13,190]) !== -1 ||
+      (e.which == 65 && e.ctrlKey === true) || 
+      (e.which == 67 && e.ctrlKey === true) || 
+      (e.which == 86 && e.ctrlKey === true) || 
+      (e.which >= 35 && e.which <= 39));
   };
 
   var isNumberEvent = function(e) {
-    return (e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105);
+    return (e.which >= 48 && e.which <= 57) || (e.which >= 96 && e.which <= 105);
   };
 
   var onlyAllowNumeric = function(e, maximumLength, selector) {
@@ -40,7 +40,7 @@ var Creditly = (function() {
   };
 
   var shouldProcessInput = function(e, maximumLength, selector) {
-     return (!isEscapedKeyStroke(e)) && onlyAllowNumeric(e, maximumLength, selector);
+    return (!isEscapedKeyStroke(e)) && onlyAllowNumeric(e, maximumLength, selector);
   };
 
   var CvvInput = (function() {
