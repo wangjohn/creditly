@@ -99,4 +99,4 @@ var creditly = Creditly.initialize(
 
 ## Shameless Plug
 
-This project is something that spun off of work at [Zinc][http://zinc.io], an API for making ecommerce purchases. Please check out the docs or contact [support@zinc.io] if you're interested!
+This project is something that spun off of work at [Zinc](http://zinc.io), an API for making ecommerce purchases. Please check out the docs or contact support@zinc.io if you're interested!
