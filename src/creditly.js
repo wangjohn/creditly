@@ -23,7 +23,7 @@ var Creditly = (function() {
   };
 
   var isNumberEvent = function(e) {
-    return (e.which >= 48 && e.which <= 57) || (e.which >= 96 && e.which <= 105);
+    return (/^\d+$/.test(String.fromCharCode(e.which)));
   };
 
   var onlyAllowNumeric = function(e, maximumLength, selector) {
