@@ -63,6 +63,19 @@ The `creditly.validate` method will return one of two things:
 
 ### Errors in Validation
 
+Whenever an error occurs after you call the `validate` method on a `Creditly` object, an event will be triggered on the HTML `body` element. This event, named `creditly_client_validation_error`, will contain a data object with the selectors of the inputs that failed validation and also the messages of the failed validation. The data has a `selectors` and a `messages` property. One could listen and display validation messages like so:
+
+```
+$("body").on("creditly_client_validation_error", function(e, data) {
+  alert(data["messages"].join(", "));
+});
+```
+
+You can change the error messages by specifying the error messages upon `Creditly` object initialization. The `initialize` function can take a fourth options argument. The possible options are:
+
+* `security_code_message` The message to display for an invalid security code
+* `number_message` The message to display for invalid credit card numbers
+*  `expiration_message` The message to display for an invalid expiration date
 
 ## Requirements
 
