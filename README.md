@@ -9,17 +9,17 @@ Creditly.js gives you everything you need in order to create a sleek, intuitive 
 
 To integrate, you just need to do the following things:
 
-* Include the `creditly.js` javascript file.
+* Include the `creditly.js` javascript file (can be found under `src/creditly.js`).
 ```
 <script type="text/javascript" src="creditly.js"></script>
 ```
 
-* Include the `creditly.css` stylesheet file.
+* Include the `creditly.css` stylesheet file (can be found under `src/creditly.css`).
 ```
 <link rel="stylesheet" href="creditly.css">
 ```
 
-* Copy the HTML from the `creditly.html` file onto your page.
+* Copy the HTML from the `creditly.html` file onto your page (can be found under `src/creditly.html`).
 * Initialize from javascript.
 
         var creditly = Creditly.initialize(
@@ -76,6 +76,20 @@ You can change the error messages by specifying the error messages upon `Creditl
 * `security_code_message` The message to display for an invalid security code
 * `number_message` The message to display for invalid credit card numbers
 *  `expiration_message` The message to display for an invalid expiration date
+
+For example, we could initialize the `Creditly` object with different error messages like so:
+
+```
+var options = {
+  "security_code_message": "Your security code was really wrong!",
+  "expiration_message": "Check yo' expiration date yo!"
+};
+var creditly = Creditly.initialize(
+    '.creditly-wrapper .expiration-month-and-year',
+    '.creditly-wrapper .credit-card-number',
+    '.creditly-wrapper .security-code',
+    options);
+```
 
 ## Requirements
 
