@@ -121,6 +121,11 @@
   margin-bottom: 20px;
 }
 
+.creditly-wrapper .card-type {
+  margin-top: 10px;
+  float: right;
+}
+
 /**
  * Button CSS
  */
