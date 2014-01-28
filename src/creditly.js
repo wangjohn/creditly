@@ -105,6 +105,7 @@ var Creditly = (function() {
           }
 
           $(selector).val(newInput);
+          $(selector).trigger("changed_input");
         }
       });
     };
@@ -374,12 +375,42 @@ var Creditly = (function() {
     };
   })();
 
-  var initialize = function(expirationSelector, creditCardNumberSelector, cvvSelector, options) {
+  var CardTypeListener = (function() {
+    var determineCardType = function(value) {
+      if (/^(34|37)/.test(value)) {
+        return "American Express";
+      } else if (/^4/.test(value)) {
+        return "Visa";
+      } else if (/^5[0-5]/.test(value)) {
+        return "MasterCard";
+      } else if (/^(6011|622|64[4-9]|65)/.test(value)) {
+        return "Discover";
+      } else {
+        return "";
+      }
+    };
+
+    var changeCardType = function(numberSelector, cardTypeSelector) {
+      $(numberSelector).on("changed_input keypress keydown keyup", function(e) {
+        var data = $(numberSelector).val();
+        var cardType = determineCardType(getNumber(data));
+        $(cardTypeSelector).text(cardType);
+      });
+    };
+
+    return {
+      changeCardType: changeCardType
+    };
+
+  })();
+
+  var initialize = function(expirationSelector, creditCardNumberSelector, cvvSelector, cardTypeSelector, options) {
     createSelectorValidatorMap(expirationSelector, creditCardNumberSelector, cvvSelector, options);
 
     ExpirationInput.createExpirationInput(expirationSelector);
     NumberInput.createNumberInput(creditCardNumberSelector);
     CvvInput.createCvvInput(cvvSelector, creditCardNumberSelector);
+    CardTypeListener.changeCardType(creditCardNumberSelector, cardTypeSelector);
 
     return this;
   };
