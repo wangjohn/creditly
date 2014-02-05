@@ -37,7 +37,7 @@ var Creditly = (function() {
   var onlyAllowNumeric = function(e, maximumLength, selector) {
     e.preventDefault();
     // Ensure that it is a number and stop the keypress
-    if (reachedMaximumLength(e, maximumLength, selector) || (!isNumberEvent(e))) {
+    if (!isNumberEvent(e)) {
       return false;
     }
     return true;
@@ -49,6 +49,10 @@ var Creditly = (function() {
 
   var shouldProcessInput = function(e, maximumLength, selector) {
     var target = $(e.currentTarget);
+    if (reachedMaximumLength(e, maximumLength, selector)) {
+      e.preventDefault();
+      return false;
+    }
     if ((target.prop("selectionStart") !== target.val().length)) {
       return false;
     }
