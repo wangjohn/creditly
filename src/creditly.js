@@ -15,11 +15,19 @@ var Creditly = (function() {
 
   // Backspace, delete, tab, escape, enter, ., Ctrl+a, Ctrl+c, Ctrl+v, home, end, left, right
   var isEscapedKeyStroke = function(e) {
-    return ( $.inArray(e.which,[46,8,9,0,27,13,190]) !== -1 ||
-      (e.which == 65 && e.ctrlKey === true) || 
-      (e.which == 67 && e.ctrlKey === true) || 
-      (e.which == 86 && e.ctrlKey === true) || 
-      (e.which >= 35 && e.which <= 39));
+    // Key event is for a browser shortcut
+    if (e.metaKey || e.ctrlKey) return true;
+
+    // If keycode is a space
+    if (e.which === 32) return false;
+
+    // If keycode is a special char (WebKit)
+    if (e.which === 0) return true;
+
+    // If char is a special char (Firefox)
+    if (e.which < 33) return true;
+
+    return false;
   };
 
   var isNumberEvent = function(e) {
@@ -29,7 +37,7 @@ var Creditly = (function() {
   var onlyAllowNumeric = function(e, maximumLength, selector) {
     e.preventDefault();
     // Ensure that it is a number and stop the keypress
-    if (reachedMaximumLength(e, maximumLength, selector) || e.shiftKey || (!isNumberEvent(e))) {
+    if (reachedMaximumLength(e, maximumLength, selector) || (!isNumberEvent(e))) {
       return false;
     }
     return true;
@@ -40,6 +48,10 @@ var Creditly = (function() {
   };
 
   var shouldProcessInput = function(e, maximumLength, selector) {
+    var target = $(e.currentTarget);
+    if ((target.prop("selectionStart") !== target.val().length)) {
+      return false;
+    }
     return (!isEscapedKeyStroke(e)) && onlyAllowNumeric(e, maximumLength, selector);
   };
 
