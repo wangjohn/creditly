@@ -259,7 +259,7 @@ var Creditly = (function() {
           selectors.push(selector)
         }
 
-        errorMessages.concat(validatorResults["messages"]);
+        errorMessages = errorMessages.concat(validatorResults["messages"]);
       };
 
       var triggerErrorMessage = function() {
