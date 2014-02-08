@@ -5,19 +5,48 @@
   <script type="text/javascript" src="src/creditly.js"></script>
   <script type="text/javascript">
     $(function() {
-      var creditly = Creditly.initialize(
-          '.creditly-wrapper .expiration-month-and-year',
-          '.creditly-wrapper .credit-card-number',
-          '.creditly-wrapper .security-code',
-          '.creditly-wrapper .card-type');
+      // For the gray theme
+      var grayThemeCreditly = Creditly.initialize(
+          '.creditly-wrapper.gray-theme .expiration-month-and-year',
+          '.creditly-wrapper.gray-theme .credit-card-number',
+          '.creditly-wrapper.gray-theme .security-code',
+          '.creditly-wrapper.gray-theme .card-type');
 
-      $(".creditly-card-form .submit").click(function(e) {
+      $(".creditly-gray-theme-submit").click(function(e) {
         e.preventDefault();
-        var output = creditly.validate();
+        var output = grayThemeCreditly.validate();
         if (output) {
           // Your validated credit card output
           console.log(output);
         }
+      });
+
+      // For the blue theme
+      var blueThemeCreditly = Creditly.initialize(
+          '.creditly-wrapper.blue-theme .expiration-month-and-year',
+          '.creditly-wrapper.blue-theme .credit-card-number',
+          '.creditly-wrapper.blue-theme .security-code',
+          '.creditly-wrapper.blue-theme .card-type');
+
+      $(".creditly-blue-theme-submit").click(function(e) {
+        e.preventDefault();
+        var output = blueThemeCreditly.validate();
+        if (output) {
+          // Your validated credit card output
+          console.log(output);
+        }
+      });
+    });
+  </script>
+  <script type="text/javascript">
+    $(function() {
+      $(".blue-theme-switch").click(function(e) {
+        $(".gray-theme-wrapper").hide();
+        $(".blue-theme-wrapper").show();
+      });
+      $(".gray-theme-switch").click(function(e) {
+        $(".blue-theme-wrapper").hide();
+        $(".gray-theme-wrapper").show();
       });
     });
   </script>
@@ -31,45 +60,96 @@
         <h2>Intuitive credit card form</h2>
       </div>
       <form class="creditly-card-form">
-        <section class="creditly-wrapper blue-theme">
-          <div class="credit-card-wrapper">
-            <div class="first-row form-group">
-              <div class="col-sm-8 controls">
-                <label class="control-label">Card Number</label>
-                <input class="number credit-card-number form-control"
-                  type="text" name="number"
-                  pattern="\d*"
-                  inputmode="numeric" autocomplete="cc-number" autocompletetype="cc-number" x-autocompletetype="cc-number"
-                  placeholder="&#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149;">
+        <div class="gray-theme-wrapper" style="display:none;">
+          <section class="creditly-wrapper gray-theme">
+            <h3>Credit Card</h3>
+            <i>
+              <div class="card-type" style="text-align:right;margin-top:10px;margin-right:10px;min-height:20px;margin-bottom:-15px"></div>
+            </i>
+            <div class="credit-card-wrapper">
+              <div class="first-row form-group">
+                <div class="col-sm-8 controls">
+                  <label class="control-label">Card Number</label>
+                  <input class="number credit-card-number form-control"
+                    type="text" name="number"
+                    pattern="\d*"
+                    inputmode="numeric" autocomplete="cc-number" autocompletetype="cc-number" x-autocompletetype="cc-number"
+                    placeholder="&#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149;">
+                </div>
+                <div class="col-sm-4 controls">
+                  <label class="control-label">CVV</label>
+                  <input class="security-code form-control"·
+                    inputmode="numeric"
+                    pattern="\d*"
+                    type="text" name="security-code"
+                    placeholder="&#149;&#149;&#149;">
+                </div>
               </div>
-              <div class="col-sm-4 controls">
-                <label class="control-label">CVV</label>
-                <input class="security-code form-control"·
-                  inputmode="numeric"
-                  pattern="\d*"
-                  type="text" name="security-code"
-                  placeholder="&#149;&#149;&#149;">
+              <div class="second-row form-group">
+                <div class="col-sm-8 controls">
+                  <label class="control-label">Name on Card</label>
+                  <input class="billing-address-name form-control"
+                    type="text" name="name"
+                    placeholder="John Smith">
+                </div>
+                <div class="col-sm-4 controls">
+                  <label class="control-label">Expiration</label>
+                  <input class="expiration-month-and-year form-control"
+                    type="text" name="expiration-month-and-year"
+                    placeholder="MM / YY">
+                </div>
               </div>
             </div>
-            <div class="second-row form-group">
-              <div class="col-sm-8 controls">
-                <label class="control-label">Name on Card</label>
-                <input class="billing-address-name form-control"
-                  type="text" name="name"
-                  placeholder="John Smith">
+          </section>
+          <button class="creditly-gray-theme-submit"><span>Submit</span></button>
+        </div>
+        <div class="blue-theme-wrapper">
+          <section class="creditly-wrapper blue-theme">
+            <div class="credit-card-wrapper">
+              <div class="first-row form-group">
+                <div class="col-sm-8 controls">
+                  <label class="control-label">Card Number</label>
+                  <input class="number credit-card-number form-control"
+                    type="text" name="number"
+                    pattern="\d*"
+                    inputmode="numeric" autocomplete="cc-number" autocompletetype="cc-number" x-autocompletetype="cc-number"
+                    placeholder="&#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149;">
+                </div>
+                <div class="col-sm-4 controls">
+                  <label class="control-label">CVV</label>
+                  <input class="security-code form-control"·
+                    inputmode="numeric"
+                    pattern="\d*"
+                    type="text" name="security-code"
+                    placeholder="&#149;&#149;&#149;">
+                </div>
               </div>
-              <div class="col-sm-4 controls">
-                <label class="control-label">Expiration</label>
-                <input class="expiration-month-and-year form-control"
-                  type="text" name="expiration-month-and-year"
-                  placeholder="MM / YY">
+              <div class="second-row form-group">
+                <div class="col-sm-8 controls">
+                  <label class="control-label">Name on Card</label>
+                  <input class="billing-address-name form-control"
+                    type="text" name="name"
+                    placeholder="John Smith">
+                </div>
+                <div class="col-sm-4 controls">
+                  <label class="control-label">Expiration</label>
+                  <input class="expiration-month-and-year form-control"
+                    type="text" name="expiration-month-and-year"
+                    placeholder="MM / YY">
+                </div>
               </div>
+              <div class="card-type"></div>
             </div>
-            <div class="card-type"></div>
-          </div>
-        </section>
-        <button class="submit"><span>Submit</span></button>
+          </section>
+          <button class="creditly-blue-theme-submit"><span>Submit</span></button>
+        </div>
       </form>
+    </div>
+    <div class="theme-navigation">
+      <ul class="nav nav-pills">
+        <li><a class="blue-theme-switch" href="#">Blue Theme</a></li>
+        <li><a class="gray-theme-switch" href="#">Gray Theme</a></li>
+      </ul>
     </div>
     <div class="footer">
       Powered by <a href="http://zinc.io">Zinc</a>

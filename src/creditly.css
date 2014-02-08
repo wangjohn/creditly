@@ -201,7 +201,7 @@
  * Button CSS
  */
 
-.creditly-card-form .submit {
+.creditly-blue-theme-submit {
   overflow: hidden;
   display: inline-block;
   visibility: visible!important;
@@ -238,7 +238,7 @@
   cursor: pointer;
 }
 
-.creditly-card-form .submit span {
+.creditly-blue-theme-submit span {
   display: block;
   position: relative;
   padding: 0 12px;
@@ -270,3 +270,33 @@
   -o-border-radius: 4px;
   border-radius: 4px;
 }
+
+.creditly-gray-theme-submit {
+  background: #2FB4E9;
+  border: 0;
+  color: #FFF;
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 12px 40px;
+  text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+}
+
+.creditly-gray-theme-submit:hover {
+  background: #5dc5ee;
+}
+
+.creditly-gray-theme-submit:active {
+  background: #169acf;
+  border: 0;
+  outline: 0;
+}
+
+.creditly-gray-theme-submit:focus {
+  background: #5dc5ee;
+}
+

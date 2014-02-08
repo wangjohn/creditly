@@ -18,7 +18,12 @@ h1, h2 {
   margin-top: 60px;
 }
 
-.banner .row .submit {
+.banner .creditly-blue-theme-submit {
+  margin-top: 20px;
+  float: right;
+}
+
+.banner .creditly-gray-theme-submit {
   margin-top: 20px;
   float: right;
 }

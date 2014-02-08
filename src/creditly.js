@@ -60,13 +60,8 @@ var Creditly = (function() {
   };
 
   var CvvInput = (function() {
-    var selector;
-    var numberSelector;
 
-    var createCvvInput = function(mainSelector, creditCardNumberSelector) {
-      selector = mainSelector;
-      numberSelector = creditCardNumberSelector;
-
+    var createCvvInput = function(selector, numberSelector) {
       var getMaximumLength = function(isAmericanExpressCard) {
         if (isAmericanExpressCard) {
           return 4;
@@ -93,7 +88,6 @@ var Creditly = (function() {
   })();
 
   var NumberInput = (function() {
-    var selector;
     var americanExpressSpaces = [4, 10, 15];
     var defaultSpaces = [4, 8, 12, 16];
 
@@ -105,8 +99,7 @@ var Creditly = (function() {
       }
     };
 
-    var createNumberInput = function(mainSelector) {
-      selector = mainSelector;
+    var createNumberInput = function(selector) {
       $(selector).keypress(function(e) {
         $(selector).removeClass("has-error");
         var number = getInputValue(e, selector);
@@ -166,7 +159,7 @@ var Creditly = (function() {
         var outputValue = ["", ""];
         if (match && match.length === 3) {
           var month = parseInt(match[1], 10);
-          var year = "20" + match[2];
+          var year = parseInt("20" + match[2], 10);
           if (month >= 0 && month <= 12) {
             isValid = true;
             var outputValue = [month, year];
@@ -357,10 +350,8 @@ var Creditly = (function() {
 
   var ExpirationInput = (function() {
     var maximumLength = 4;
-    var selector;
 
-    var createExpirationInput = function(mainSelector) {
-      selector = mainSelector
+    var createExpirationInput = function(selector) {
       $(selector).keypress(function(e) {
         $(selector).removeClass("has-error");
         if (shouldProcessInput(e, maximumLength, selector)) {
@@ -375,19 +366,8 @@ var Creditly = (function() {
       });
     };
 
-    var parseExpirationInput = function(expirationSelector) {
-      var inputValue = getNumber($(expirationSelector).val());
-      var month = inputValue.slice(0,2);
-      var year = "20" + inputValue.slice(2);
-      return {
-        'year': year,
-        'month': month
-      };
-    };
-
     return {
       createExpirationInput: createExpirationInput,
-      parseExpirationInput: parseExpirationInput
     };
   })();
 
@@ -421,17 +401,19 @@ var Creditly = (function() {
   })();
 
   var initialize = function(expirationSelector, creditCardNumberSelector, cvvSelector, cardTypeSelector, options) {
-    createSelectorValidatorMap(expirationSelector, creditCardNumberSelector, cvvSelector, options);
+    var selectorValidatorMap = createSelectorValidatorMap(expirationSelector, creditCardNumberSelector, cvvSelector, options);
 
     ExpirationInput.createExpirationInput(expirationSelector);
     NumberInput.createNumberInput(creditCardNumberSelector);
     CvvInput.createCvvInput(cvvSelector, creditCardNumberSelector);
     CardTypeListener.changeCardType(creditCardNumberSelector, cardTypeSelector);
 
-    return this;
+    return {
+      validate: function() {
+        return Validation.validate(selectorValidatorMap);
+      }
+    };
   };
-
-  var selectorValidatorMap;
 
   var createSelectorValidatorMap = function(expirationSelector, creditCardNumberSelector, cvvSelector, options) {
     var optionValues = options || {};
@@ -439,7 +421,7 @@ var Creditly = (function() {
     optionValues["number_message"] = optionValues["number_message"] || "Your credit card number is invalid";
     optionValues["expiration_message"] = optionValues["expiration_message"] || "Your credit card expiration is invalid";
 
-    selectorValidatorMap = {};
+    var selectorValidatorMap = {};
     selectorValidatorMap[creditCardNumberSelector] = {
         "type": "creditCard",
         "data": {
@@ -459,14 +441,10 @@ var Creditly = (function() {
         },
         "output_name": ["expiration_month", "expiration_year"]
       };
-  };
-
-  var validate = function() {
-    return Validation.validate(selectorValidatorMap);
+    return selectorValidatorMap;
   };
 
   return {
-    initialize: initialize,
-    validate: validate,
+    initialize: initialize
   };
 })();
