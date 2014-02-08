@@ -3,7 +3,7 @@ Creditly.js
 
 An intuitive credit card form. Check out the [live demo](http://wangjohn.github.io/creditly/) to see Creditly.js in action.
 
-![ScreenShot](images/teaser_snapshot.png)
+[![ScreenShot](images/teaser_snapshot.png)](http://wangjohn.github.io/creditly/)
 
 Creditly.js gives you everything you need in order to create a sleek, intuitive credit card form. Just copy the html, css, and javascript to get an intuitive credit card form in seconds. You get credit card validation (using the Luhn algorithm) for free!
 
@@ -21,7 +21,7 @@ To integrate, you just need to do the following things:
 <link rel="stylesheet" href="creditly.css">
 ```
 
-* Copy the HTML from the `creditly.html` file onto your page (can be found under `src/creditly.html`).
+* Copy the HTML from the theme you'd like to use. You can find the stubs of HTML under the `src/themes` folder. For example, to use the `blue_theme`, you should take copy and paste the HTML from `src/themes/blue_theme.html`.
 * Initialize from javascript.
 
         var creditly = Creditly.initialize(
@@ -29,6 +29,15 @@ To integrate, you just need to do the following things:
             '.creditly-wrapper .credit-card-number',
             '.creditly-wrapper .security-code',
             '.creditly-wrapper .card-type');
+
+## Themes
+
+Creditly supports multiple themes. Each can be used with the same CSS and javascript (`src/creditly.css` and `src/creditly.js`). However, the HTML for each theme can have slight differences. You can find the HTML for each of the themes under the `src/themes` folder.
+
+Currently, Creditly.js supports the following themes (each can be viewed on the [demo website](http://wangjohn.github.io/creditly/)):
+
+* `blue_theme`
+* `gray_theme`
 
 ## Submitting A Form
 
