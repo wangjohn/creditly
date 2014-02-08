@@ -1,12 +1,16 @@
 var Creditly = (function() {
   var getInputValue = function(e, selector) {
-    var inputValue = $.trim($(selector).val());
+    var inputValue = document.querySelector(selector).value.trim();
     inputValue = inputValue + String.fromCharCode(e.which);
     return getNumber(inputValue);
   };
 
   var getNumber = function(string) {
     return string.replace(/[^\d]/g, "");
+  };
+
+  var removeErrors = function(element) {
+    element.className = element.className.replace(/\bhas-error\b/,'');
   };
 
   var reachedMaximumLength = function(e, maximumLength, selector) {
@@ -48,12 +52,12 @@ var Creditly = (function() {
   };
 
   var shouldProcessInput = function(e, maximumLength, selector) {
-    var target = $(e.currentTarget);
+    var target = e.currentTarget;
     if (reachedMaximumLength(e, maximumLength, selector)) {
       e.preventDefault();
       return false;
     }
-    if ((target.prop("selectionStart") !== target.val().length)) {
+    if ((target.selectionStart !== target.value.length)) {
       return false;
     }
     return (!isEscapedKeyStroke(e)) && onlyAllowNumeric(e, maximumLength, selector);
@@ -70,14 +74,15 @@ var Creditly = (function() {
         }
       };
 
-      $(selector).keypress(function(e) {
-        $(selector).removeClass("has-error");
+      document.querySelector(selector).addEventListener("keypress", function(e) {
+        var element = document.querySelector(selector);
+        removeErrors(element);
         var number = getInputValue(e, numberSelector);
         var cvv = getInputValue(e, selector)
         var isAmericanExpressCard = isAmericanExpress(number);
         var maximumLength = getMaximumLength(isAmericanExpressCard);
         if (shouldProcessInput(e, maximumLength, selector)) {
-          $(selector).val(cvv);
+          element.value = cvv;
         }
       });
     };
@@ -100,8 +105,9 @@ var Creditly = (function() {
     };
 
     var createNumberInput = function(selector) {
-      $(selector).keypress(function(e) {
-        $(selector).removeClass("has-error");
+      document.querySelector(selector).addEventListener("keypress", function(e) {
+        var element = document.querySelector(selector);
+        removeErrors(element);
         var number = getInputValue(e, selector);
         var isAmericanExpressCard = isAmericanExpress(number);
         var maximumLength = getMaximumLength(isAmericanExpressCard);
@@ -113,8 +119,10 @@ var Creditly = (function() {
             newInput = addSpaces(number, defaultSpaces);
           }
 
-          $(selector).val(newInput);
-          $(selector).trigger("changed_input");
+          element.value = newInput;
+          var ev = document.createEvent("HTMLEvents");
+          ev.initEvent("changed_input", true, true);
+          element.dispatchEvent(ev);
         }
       });
     };
@@ -153,7 +161,7 @@ var Creditly = (function() {
       var expirationRegex = /(\d\d)\s*\/\s*(\d\d)/;
 
       var creditCardExpiration = function(selector, data) {
-        var expirationVal = $.trim($(selector).val());
+        var expirationVal = document.querySelector(selector).value.trim()
         var match = expirationRegex.exec(expirationVal);
         var isValid = false;
         var outputValue = ["", ""];
@@ -182,10 +190,10 @@ var Creditly = (function() {
       };
 
       var creditCard = function(selector, data) {
-        var rawNumber = $(data["creditCardNumberSelector"]).val();
-        var number = $.trim(rawNumber).replace(/\D/g, "");
-        var rawSecurityCode = $(data["cvvSelector"]).val();
-        var securityCode = $.trim(rawSecurityCode).replace(/\D/g, "");
+        var rawNumber = document.querySelector(data["creditCardNumberSelector"]).value;
+        var number = rawNumber.trim().replace(/\D/g, "");
+        var rawSecurityCode = document.querySelector(data["cvvSelector"]).value;
+        var securityCode = rawSecurityCode.trim().replace(/\D/g, "");
         var messages = [];
         var isValid = true;
         var selectors = [];
@@ -260,9 +268,16 @@ var Creditly = (function() {
           "messages": errorMessages
         };
         for (var i=0; i<selectors.length; i++) {
-          $(selectors[i]).addClass("has-error");
+          document.querySelector(selectors[i]).className = document.querySelector(selectors[i]).className + " has-error";
         }
-        $("body").trigger("creditly_client_validation_error", errorsPayload);
+
+        if (window.jQuery) {
+          window.jQuery("body").trigger("creditly_client_validation_error", errorsPayload);
+        } else {
+          var ev = document.createEvent("MessageEvent");
+          ev.initMessageEvent("creditly_client_validation_error", true, true, errorsPayload, "", "", "", null);
+          document.body.dispatchEvent(ev);
+        }
       };
 
       return {
@@ -352,15 +367,16 @@ var Creditly = (function() {
     var maximumLength = 4;
 
     var createExpirationInput = function(selector) {
-      $(selector).keypress(function(e) {
-        $(selector).removeClass("has-error");
+      document.querySelector(selector).addEventListener("keypress", function(e) {
+        var element = document.querySelector(selector)
+        removeErrors(element);
         if (shouldProcessInput(e, maximumLength, selector)) {
           var inputValue = getInputValue(e, selector);
           if (inputValue.length >= 2) {
             var newInput = inputValue.slice(0, 2) + " / " + inputValue.slice(2);
-            $(selector).val(newInput);
+            element.value = newInput;
           } else {
-            $(selector).val(inputValue);
+            element.value = inputValue;
           }
         }
       });
@@ -387,11 +403,16 @@ var Creditly = (function() {
     };
 
     var changeCardType = function(numberSelector, cardTypeSelector) {
-      $(numberSelector).on("changed_input keypress keydown keyup", function(e) {
-        var data = $(numberSelector).val();
+      var element = document.querySelector(numberSelector);
+      var changeCardTypeListener = function(e) {
+        var data = document.querySelector(numberSelector).value;
         var cardType = determineCardType(getNumber(data));
-        $(cardTypeSelector).text(cardType);
-      });
+        document.querySelector(cardTypeSelector).innerHTML = cardType;
+      };
+      element.addEventListener("changed_input", changeCardTypeListener);
+      element.addEventListener("keypress", changeCardTypeListener);
+      element.addEventListener("keydown", changeCardTypeListener);
+      element.addEventListener("keyup", changeCardTypeListener);
     };
 
     return {

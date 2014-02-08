@@ -67,12 +67,22 @@ The `creditly.validate` method will return one of two things:
 
 ### Errors in Validation
 
-Whenever an error occurs after you call the `validate` method on a `Creditly` object, an event will be triggered on the HTML `body` element. This event, named `creditly_client_validation_error`, will contain a data object with the selectors of the inputs that failed validation and also the messages of the failed validation. The data has a `selectors` and a `messages` property. One could listen and display validation messages like so:
+Whenever an error occurs after you call the `validate` method on a `Creditly` object, an event will be triggered on the HTML `body` element. This event, named `creditly_client_validation_error`, will contain a data object with the selectors of the inputs that failed validation and also the messages of the failed validation. The data has a `selectors` and a `messages` property.
+
+If jQuery exists on the page, then a jQuery event will be triggered on the `body` element and can be accessed like so:
 
 ```
 $("body").on("creditly_client_validation_error", function(e, data) {
   alert(data["messages"].join(", "));
 });
+```
+
+If jQuery does not exist on the page, then a `MessageEvent` will be fired on the `body` element and can be accessed like so:
+
+```
+document.body.addEventListener("creditly_client_validation_error", function(e) {
+  alert(e.data["messages"].join(", "));
+}, false);
 ```
 
 You can change the error messages by specifying the error messages upon `Creditly` object initialization. The `initialize` function can take a fourth options argument. The possible options are:
@@ -95,10 +105,6 @@ var creditly = Creditly.initialize(
     '.creditly-wrapper .card-type',
     options);
 ```
-
-## Requirements
-
-* jQuery >= 1.7
 
 ## Shameless Plug
 
