@@ -103,7 +103,11 @@
   padding-right: 7px;
 }
 
-.creditly-wrapper.blue-theme input.has-error {
+/*
+ * Bootstrap stuff
+ */
+
+.creditly-wrapper input.form-control.has-error {
   outline: none;
   border-color: #ff7076;
   border-top-color: #ff5c61;
@@ -114,9 +118,6 @@
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.2),0 1px 0 rgba(255,255,255,0),0 0 4px 0 rgba(255,0,0,0.5);
 }
 
-/*
- * Bootstrap stuff
- */
 .creditly-wrapper .form-control {
   display: block;
   width: 100%;
