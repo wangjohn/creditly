@@ -40,14 +40,16 @@
   </script>
   <script type="text/javascript">
     $(function() {
-      $(".blue-theme-switch").click(function(e) {
-        $(".gray-theme-wrapper").hide();
-        $(".blue-theme-wrapper").show();
-      });
-      $(".gray-theme-switch").click(function(e) {
-        $(".blue-theme-wrapper").hide();
-        $(".gray-theme-wrapper").show();
-      });
+      var switchThemes = function(e) {
+        $(".theme-navigation .nav").find("li").removeClass("active");
+        $(e.currentTarget).closest("li").addClass("active");
+        var target = $(e.currentTarget).attr("data-target");
+        $(".top-level-wrapper").hide();
+        $("." + target).show();
+      };
+
+      $(".blue-theme-switch").click(switchThemes);
+      $(".gray-theme-switch").click(switchThemes);
     });
   </script>
 </html>
@@ -58,9 +60,15 @@
       <div class="header">
         <h1>Creditly.js</h1>
         <h2>Intuitive credit card form</h2>
+        <div class="theme-navigation">
+          <ul class="nav nav-pills">
+            <li class="active"><a class="blue-theme-switch" data-target="blue-theme-wrapper" href="#">Blue Theme</a></li>
+            <li><a class="gray-theme-switch" data-target="gray-theme-wrapper" href="#">Gray Theme</a></li>
+          </ul>
+        </div>
       </div>
       <form class="creditly-card-form">
-        <div class="gray-theme-wrapper" style="display:none;">
+        <div class="top-level-wrapper gray-theme-wrapper" style="display:none;">
           <section class="creditly-wrapper gray-theme">
             <h3>Credit Card</h3>
             <i>
@@ -103,7 +111,7 @@
           </section>
           <button class="creditly-gray-theme-submit"><span>Submit</span></button>
         </div>
-        <div class="blue-theme-wrapper">
+        <div class="top-level-wrapper blue-theme-wrapper">
           <section class="creditly-wrapper blue-theme">
             <div class="credit-card-wrapper">
               <div class="first-row form-group">
@@ -144,12 +152,6 @@
           <button class="creditly-blue-theme-submit"><span>Submit</span></button>
         </div>
       </form>
-    </div>
-    <div class="theme-navigation">
-      <ul class="nav nav-pills">
-        <li><a class="blue-theme-switch" href="#">Blue Theme</a></li>
-        <li><a class="gray-theme-switch" href="#">Gray Theme</a></li>
-      </ul>
     </div>
     <div class="footer">
       Powered by <a href="http://zinc.io">Zinc</a>
