@@ -192,8 +192,6 @@ var Creditly = (function() {
       var creditCard = function(selector, data) {
         var rawNumber = document.querySelector(data["creditCardNumberSelector"]).value;
         var number = rawNumber.trim().replace(/\D/g, "");
-        var rawSecurityCode = document.querySelector(data["cvvSelector"]).value;
-        var securityCode = rawSecurityCode.trim().replace(/\D/g, "");
         var messages = [];
         var isValid = true;
         var selectors = [];
@@ -204,10 +202,15 @@ var Creditly = (function() {
           isValid = false;
         }
 
-        if (!isValidSecurityCode(isAmericanExpress(number), securityCode)) {
-          messages.push(data["message"]["security_code"]);
-          selectors.push(data["cvvSelector"]);
-          isValid = false;
+        if (data.cvvSelector) {
+          var rawSecurityCode = document.querySelector(data["cvvSelector"]).value;
+          var securityCode = rawSecurityCode.trim().replace(/\D/g, "");
+
+          if (!isValidSecurityCode(isAmericanExpress(number), securityCode)) {
+            messages.push(data["message"]["security_code"]);
+            selectors.push(data["cvvSelector"]);
+            isValid = false;
+          }
         }
 
         result = {
@@ -426,8 +429,12 @@ var Creditly = (function() {
 
     ExpirationInput.createExpirationInput(expirationSelector);
     NumberInput.createNumberInput(creditCardNumberSelector);
-    CvvInput.createCvvInput(cvvSelector, creditCardNumberSelector);
-    CardTypeListener.changeCardType(creditCardNumberSelector, cardTypeSelector);
+    if (cvvSelector) {
+      CvvInput.createCvvInput(cvvSelector, creditCardNumberSelector);
+    }
+    if (cardTypeSelector) {
+      CardTypeListener.changeCardType(creditCardNumberSelector, cardTypeSelector);
+    }
 
     return {
       validate: function() {
